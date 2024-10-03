@@ -2,7 +2,7 @@ import HelloPerson from "./HelloPerson";
 
 export default function Person() {
     const person = {
-        name: 'Peter',
+        name: 'Nguyễn Trần Hoàng Long',
         theme: {
             backgroundColor: 'green',
             color: 'white'
