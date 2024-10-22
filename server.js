@@ -1,17 +1,20 @@
 import express from 'express';
-import RouterApp from './webRoute.js';
+import RouterWeb from './router/webRoute.js';
 import viewEngine from './config/viewEngine';
 import timeLog from './middleware/logging.js';
 import path from 'path';
 import dotenv from 'dotenv';
+import RouterAPI from './router/apiRoute.js';
 const app = express();
 dotenv.config();
 
 app.use(timeLog);
 app.use(express.static(path.join(__dirname, 'src')))
+app.use(express.json());
 
 viewEngine(app);
-RouterApp(app);
+RouterWeb(app);
+RouterAPI(app);
 
 
 
