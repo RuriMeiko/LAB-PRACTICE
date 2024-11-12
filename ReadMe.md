@@ -1,3 +1,6 @@
-##This is my project of LTWNC!
+## This is my project of LTWNC!
 
-#Switch to nodejs branch or react branch to view
+### Switch to the following branches to view:
+
+- **nodejs**
+- **react**
