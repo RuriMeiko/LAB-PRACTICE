@@ -3,6 +3,7 @@ import connection from '../config/db.config';
 const getUsersModel = async () => {
     try {
         const [rows, field] = await connection.execute('SELECT * FROM `users`');
+        // console.log(rows);
 
         return rows;
     } catch (err) {
@@ -40,4 +41,17 @@ const delUserModel = async (id) => {
         return null;
     }
 };
-export { getUsersModel, addUserModel, delUserModel, updateUserModel };
+
+const getInfoUserModel = async (username) => {
+    try {
+        const [rows, field] = await connection.execute('SELECT * FROM `users` WHERE `username` = ?', [username]);
+        return rows;
+
+    } catch (err) {
+        console.error('Lỗi khi truy vấn:', err);
+        return null;
+    }
+};
+
+
+export { getUsersModel, addUserModel, delUserModel, updateUserModel, getInfoUserModel };

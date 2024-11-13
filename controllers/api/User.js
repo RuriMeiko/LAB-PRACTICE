@@ -1,4 +1,4 @@
-import { delUserModel, addUserModel, updateUserModel } from "../../models/user.model";
+import { delUserModel, addUserModel, updateUserModel, getInfoUserModel, getUsersModel } from "../../models/user.model";
 
 const addUser = async (req, res, next) => {
 
@@ -44,4 +44,29 @@ const updateUser = async (req, res, next) => {
     }
 };
 
-export { addUser, delUser, updateUser };
+const getUser = async (req, res, next) => {
+    try {
+        if (!req.body.username) return res.status(400).json({ message: "missing info" });
+        const { username } = req.body;
+        const users = await getInfoUserModel(username);
+        if (users === null) return res.status(500).json({ message: "Error to get" });
+        return res.status(200).json(users);
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "", ...error });
+    }
+}
+
+const getListUser = async (req, res, next) => {
+    try {
+        const users = await getUsersModel();
+        if (users === null) return res.status(500).json({ message: "Error to get" });
+        return res.status(200).json(users);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "", ...error });
+    }
+}
+
+export { addUser, delUser, updateUser, getUser, getListUser };
