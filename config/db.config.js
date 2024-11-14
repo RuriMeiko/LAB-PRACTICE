@@ -1,12 +1,18 @@
-import mysql from 'mysql2';
+const { Sequelize } = require('sequelize');
 
-const pool = mysql.createPool({
-  host: 'localhost', // Địa chỉ máy chủ MySQL
-  user: 'root', // Tên người dùng MySQL
-  password: '', // Mật khẩu MySQL
-  database: 'lab2nodejs', // Tên database
-  waitForConnections: true,
+const sequelize = new Sequelize('lab2nodejs', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
 });
 
-const connection = pool.promise();
-export default connection;
+const initDb = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+initDb();
+
+export default sequelize;

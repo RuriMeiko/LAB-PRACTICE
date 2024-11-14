@@ -8,7 +8,6 @@ const verifyToken = (token) => {
             algorithm: 'HS256',
         })
     } catch (err) {
-        console.log(err);
     }
     return decoded
 }

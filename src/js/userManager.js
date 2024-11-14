@@ -1,16 +1,4 @@
 $(document).ready(function () {
-    $("#togglePassword").click(function () {
-        const passwordInput = $("#password");
-        const passwordIcon = $("#togglePasswordIcon");
-        if (passwordInput.attr("type") === "password") {
-            passwordInput.attr("type", "text");
-            passwordIcon.removeClass("bi-eye-slash").addClass("bi-eye");
-        } else {
-            passwordInput.attr("type", "password");
-            passwordIcon.removeClass("bi-eye").addClass("bi-eye-slash");
-        }
-    });
-
 
     $('#infoModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
@@ -125,7 +113,7 @@ $(document).ready(function () {
                 },
                 body: JSON.stringify(user)
             });
-            
+
             if (editUserFetch.status === 200) {
                 alert('Sửa thành công');
                 location.reload();
@@ -147,6 +135,8 @@ $(document).ready(function () {
         if (fetchData.status === 200) {
             alert('Xóa thành công');
             location.reload();
+        } else {
+            alert('Xóa thất bại');
         }
         button.prop('disabled', false);
 

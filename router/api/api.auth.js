@@ -5,7 +5,7 @@ const AuthAPI = (router) => {
 
     router.post('/login', loginUser);
     router.post('/register', registerUser);
-    router.post('/logout', logoutUser);
+    router.get('/logout', logoutUser);
 
     return router;
 }

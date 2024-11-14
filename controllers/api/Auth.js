@@ -30,14 +30,19 @@ const registerUser = async (req, res, next) => {
     }
 }
 
-const logoutUser = async (req, res, next) => {
+const logoutUser = async (req, res) => {
     try {
-        const users = await getUsersModel();
-        if (users === null) return res.status(500).json({ message: "Error to get" });
-        return res.status(200).json(users);
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ message: "Failed to logout" });
+            }            
+            res.clearCookie('auth');
+            return res.redirect('/login');
+        });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "", ...error });
+        return res.status(500).json({ message: "An error occurred during logout", ...error });
     }
 }
 
