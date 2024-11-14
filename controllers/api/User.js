@@ -7,8 +7,16 @@ const addUser = async (req, res, next) => {
 
         if (!req.body.username) return res.status(400).json({ message: "missing info" });
         const resu = await addUserModel(user);
-        if (resu === null) return res.status(500).json({ message: "Error to add" });
-        return res.status(200).json({ message: "User added" });
+        switch (resu) {
+            case null:
+                return res.status(500).json({ message: "Error to add" });
+            case 'USER_DUPLICATE':
+                return res.status(500).json({ message: resu });
+            case 'EMAIL_DUPLICATE':
+                return res.status(500).json({ message: resu });
+            default:
+                return res.status(200).json({ message: "User added" });
+        }
 
     } catch (error) {
         console.log(error);

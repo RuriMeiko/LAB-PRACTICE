@@ -1,6 +1,6 @@
 import { loginUserModel } from "../../models/auth.model";
 import { createJWT } from "../../utils/jwt";
-
+import { addUserModel } from "../../models/user.model";
 const loginUser = async (req, res, next) => {
     try {
         const { username, password } = req.body;
@@ -21,9 +21,19 @@ const loginUser = async (req, res, next) => {
 
 const registerUser = async (req, res, next) => {
     try {
-        const users = await getUsersModel();
-        if (users === null) return res.status(500).json({ message: "Error to get" });
-        return res.status(200).json(users);
+        const user = req.body;
+        if (!req.body.username) return res.status(400).json({ message: "missing info" });
+        const resu = await addUserModel(user);
+        switch (resu) {
+            case null:
+                return res.status(500).json({ message: "Error to add" });
+            case 'USER_DUPLICATE':
+                return res.status(500).json({ message: resu });
+            case 'EMAIL_DUPLICATE':
+                return res.status(500).json({ message: resu });
+            default:
+                return res.status(200).json({ message: "User added" });
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "", ...error });
@@ -36,7 +46,7 @@ const logoutUser = async (req, res) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ message: "Failed to logout" });
-            }            
+            }
             res.clearCookie('auth');
             return res.redirect('/login');
         });

@@ -103,7 +103,15 @@ $(document).ready(function () {
                 alert('Thêm thành công');
                 location.reload();
             } else {
-                alert('Thêm thất bại');
+                const message = await newUserFetch.json();
+                switch (message.message) {
+                    case 'USER_DUPLICATE':
+                        return alert('Trùng username');
+                    case 'EMAIL_DUPLICATE':
+                        return alert('Trùng email');
+                    default:
+                        return alert('Thêm thất bại');
+                }
             }
         } else if (mode === 'edit') {
             const editUserFetch = await fetch('/api/updateUser', {
@@ -116,9 +124,9 @@ $(document).ready(function () {
 
             if (editUserFetch.status === 200) {
                 alert('Sửa thành công');
-                location.reload();
+                return location.reload();
             } else {
-                alert('Sửa thất bại');
+                return alert('Sửa thất bại');
             }
         }
     });
